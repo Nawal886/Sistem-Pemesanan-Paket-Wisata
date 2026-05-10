@@ -1,8 +1,12 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import Button from '../atoms/Button';
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const menuItems = [
     { path: '/admin/paket', label: 'Paket Wisata', icon: '🧳' },
@@ -26,7 +30,7 @@ const Sidebar = () => {
       <div style={{ padding: '24px 20px', borderBottom: '1px solid var(--border)' }}>
         <h1 style={{ fontSize: '1.2rem', fontWeight: '800', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '1.8rem' }}>🏝️</span>
-          <span className="gradient-text">Wanderlust Admin</span>
+          <span className="gradient-text">WisataKu Admin</span>
         </h1>
       </div>
 
@@ -56,6 +60,16 @@ const Sidebar = () => {
       </nav>
 
       <div style={{ padding: '20px', borderTop: '1px solid var(--border)', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+        <Button 
+          variant="ghost" 
+          style={{ width: '100%', marginBottom: '16px', color: 'var(--danger)', borderColor: 'rgba(255, 77, 106, 0.3)' }}
+          onClick={() => {
+            logout();
+            navigate('/login');
+          }}
+        >
+          Keluar (Log Out)
+        </Button>
         © 2026 UTS Pemrograman III<br/>
         Admin Dashboard
       </div>

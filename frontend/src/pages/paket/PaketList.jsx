@@ -5,6 +5,7 @@ import DataTable from '../../components/organisms/DataTable';
 import Pagination from '../../components/molecules/Pagination';
 import SearchBar from '../../components/molecules/SearchBar';
 import Badge from '../../components/atoms/Badge';
+import Button from '../../components/atoms/Button';
 
 const PaketList = () => {
   const navigate = useNavigate();
@@ -40,6 +41,18 @@ const PaketList = () => {
     }
   };
 
+  const handleDelete = async (id, e) => {
+    e.stopPropagation();
+    if (window.confirm('Apakah Anda yakin ingin menghapus paket ini?')) {
+      try {
+        await paketService.delete(id);
+        fetchPaket();
+      } catch (err) {
+        alert(err.message || 'Gagal menghapus paket');
+      }
+    }
+  };
+
   const columns = [
     { header: 'ID', accessor: 'id' },
     { header: 'Nama Paket', accessor: 'nama_paket', render: (row) => <strong style={{color: 'var(--accent)'}}>{row.nama_paket}</strong> },
@@ -47,6 +60,16 @@ const PaketList = () => {
     { header: 'Harga (Rp)', accessor: 'harga', render: (row) => new Intl.NumberFormat('id-ID').format(row.harga) },
     { header: 'Durasi', accessor: 'durasi', render: (row) => `${row.durasi} Hari` },
     { header: 'Status', accessor: 'status', render: (row) => <Badge variant={row.status}>{row.status}</Badge> },
+    { 
+      header: 'Aksi', 
+      accessor: 'id',
+      render: (row) => (
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button size="sm" variant="secondary" onClick={(e) => { e.stopPropagation(); navigate(`/admin/paket/edit/${row.id}`); }}>Edit</Button>
+          <Button size="sm" variant="danger" onClick={(e) => handleDelete(row.id, e)}>Hapus</Button>
+        </div>
+      )
+    },
   ];
 
   return (
@@ -56,6 +79,7 @@ const PaketList = () => {
           <h1 style={{ margin: '0 0 8px 0' }}>Manajemen Paket Wisata</h1>
           <p style={{ margin: 0, color: 'var(--text-secondary)' }}>Kelola data paket wisata yang tersedia untuk pelanggan.</p>
         </div>
+        <Button variant="primary" onClick={() => navigate('/admin/paket/new')}>+ Tambah Paket</Button>
       </div>
 
       <div className="glass" style={{ padding: '24px', borderRadius: '16px', marginBottom: '24px' }}>

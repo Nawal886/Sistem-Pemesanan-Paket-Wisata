@@ -42,7 +42,7 @@ func main() {
 
 	// Create Fiber app
 	app := fiber.New(fiber.Config{
-		AppName:      "Sistem Pemesanan Paket Wisata API v2.0.0",
+		AppName:      "WisataKu API v2.0.0",
 		ErrorHandler: customErrorHandler,
 	})
 

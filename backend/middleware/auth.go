@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"os"
 	"strings"
 	"time"
 
@@ -18,13 +17,9 @@ type JWTClaims struct {
 	jwt.RegisteredClaims
 }
 
-// GetJWTSecret returns the JWT secret from environment or a default
+// GetJWTSecret returns the JWT secret
 func GetJWTSecret() string {
-	secret := os.Getenv("JWT_SECRET")
-	if secret == "" {
-		secret = "wanderlust-secret-key-2026"
-	}
-	return secret
+	return "wisataku-secret-key-2026"
 }
 
 // GenerateToken creates a new JWT token for a user

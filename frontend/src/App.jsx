@@ -19,6 +19,7 @@ import ReviewForm from './pages/public/ReviewForm';
 // Admin Pages
 import PaketList from './pages/paket/PaketList';
 import PaketDetail from './pages/paket/PaketDetail';
+import PaketForm from './pages/paket/PaketForm';
 import DestinasiList from './pages/destinasi/DestinasiList';
 import DestinasiDetail from './pages/destinasi/DestinasiDetail';
 import PemesananList from './pages/pemesanan/PemesananList';
@@ -85,6 +86,8 @@ function App() {
         <Route index element={<Navigate to="paket" replace />} />
         
         <Route path="paket" element={<PaketList />} />
+        <Route path="paket/new" element={<PaketForm />} />
+        <Route path="paket/edit/:id" element={<PaketForm />} />
         <Route path="paket/:id" element={<PaketDetail />} />
         
         <Route path="destinasi" element={<DestinasiList />} />

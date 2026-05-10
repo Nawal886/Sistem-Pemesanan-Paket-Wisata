@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Try to load user from local storage initially for fast render
-    const storedUser = localStorage.getItem('wanderlust_user');
+    const storedUser = localStorage.getItem('wisataku_user');
     if (storedUser) {
       try {
         setUser(JSON.parse(storedUser));
@@ -21,13 +21,13 @@ export const AuthProvider = ({ children }) => {
     }
 
     const initAuth = async () => {
-      const token = localStorage.getItem('wanderlust_token');
+      const token = localStorage.getItem('wisataku_token');
       if (token) {
         try {
           const res = await authService.getProfile();
           if (res.data.success) {
             setUser(res.data.data);
-            localStorage.setItem('wanderlust_user', JSON.stringify(res.data.data));
+            localStorage.setItem('wisataku_user', JSON.stringify(res.data.data));
           }
         } catch (error) {
           console.error('Session expired or invalid token', error);
@@ -41,14 +41,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (token, userData) => {
-    localStorage.setItem('wanderlust_token', token);
-    localStorage.setItem('wanderlust_user', JSON.stringify(userData));
+    localStorage.setItem('wisataku_token', token);
+    localStorage.setItem('wisataku_user', JSON.stringify(userData));
     setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem('wanderlust_token');
-    localStorage.removeItem('wanderlust_user');
+    localStorage.removeItem('wisataku_token');
+    localStorage.removeItem('wisataku_user');
     setUser(null);
   };
 

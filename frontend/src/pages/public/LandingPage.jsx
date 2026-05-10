@@ -37,7 +37,7 @@ const LandingPage = () => {
       }}>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
           <h1 className="animate-fade-in-up" style={{ fontSize: '4rem', fontWeight: '800', lineHeight: 1.1, marginBottom: '24px' }}>
-            Jelajahi Dunia dengan <span className="gradient-text">Wanderlust</span>
+            Jelajahi Dunia dengan <span className="gradient-text">WisataKu</span>
           </h1>
           <p className="animate-fade-in-up" style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', marginBottom: '40px', animationDelay: '0.1s' }}>
             Temukan paket wisata eksklusif dan ciptakan kenangan tak terlupakan bersama orang tersayang.

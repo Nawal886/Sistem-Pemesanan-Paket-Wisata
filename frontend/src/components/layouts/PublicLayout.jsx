@@ -16,7 +16,7 @@ const PublicLayout = () => {
       }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '1.8rem' }}>🏝️</span>
-          <span className="gradient-text" style={{ fontSize: '1.4rem', fontWeight: '800' }}>Wanderlust</span>
+          <span className="gradient-text" style={{ fontSize: '1.4rem', fontWeight: '800' }}>WisataKu</span>
         </Link>
 
         <nav style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -62,7 +62,7 @@ const PublicLayout = () => {
         borderTop: '1px solid var(--border)',
         color: 'var(--text-muted)'
       }}>
-        <div style={{ marginBottom: '16px', fontSize: '1.5rem' }}>🏝️ Wanderlust</div>
+        <div style={{ marginBottom: '16px', fontSize: '1.5rem' }}>🏝️ WisataKu</div>
         <p>© 2026 UTS Pemrograman III. Hak Cipta Dilindungi.</p>
       </footer>
     </div>

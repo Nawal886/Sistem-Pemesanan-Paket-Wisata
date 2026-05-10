@@ -19,8 +19,8 @@ func SeedAll(db *gorm.DB) {
 	if countUser == 0 {
 		log.Println("Seeding Users...")
 		admin := model.User{
-			Nama:    "Admin Wanderlust",
-			Email:   "admin@wanderlust.com",
+			Nama:    "Admin WisataKu",
+			Email:   "admin@wisataku.com",
 			Role:    "admin",
 			Telepon: "081200000001",
 			Alamat:  "Jakarta, Indonesia",
@@ -38,7 +38,7 @@ func SeedAll(db *gorm.DB) {
 
 		db.Create(&admin)
 		db.Create(&customer)
-		log.Println("✅ Default users seeded (admin@wanderlust.com / admin123)")
+		log.Println("✅ Default users seeded (admin@wisataku.com / admin123)")
 	}
 
 	// Seed Destinasi

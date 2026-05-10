@@ -25,7 +25,7 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 	api := app.Group("/api")
 
 	api.Get("/health", func(c *fiber.Ctx) error {
-		return handler.JSONResponse(c, fiber.StatusOK, "Sistem Pemesanan Paket Wisata API is running", fiber.Map{"version": "2.0.0"}, "")
+		return handler.JSONResponse(c, fiber.StatusOK, "WisataKu API is running", fiber.Map{"version": "2.0.0"}, "")
 	})
 
 	// ==========================================
