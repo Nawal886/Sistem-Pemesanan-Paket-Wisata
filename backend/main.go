@@ -27,6 +27,7 @@ func main() {
 
 	// Auto-migrate tables
 	if err := config.DB.AutoMigrate(
+		&model.User{},
 		&model.PaketWisata{},
 		&model.Destinasi{},
 		&model.Pemesanan{},
@@ -41,7 +42,7 @@ func main() {
 
 	// Create Fiber app
 	app := fiber.New(fiber.Config{
-		AppName:      "Sistem Pemesanan Paket Wisata API v1.0.0",
+		AppName:      "Sistem Pemesanan Paket Wisata API v2.0.0",
 		ErrorHandler: customErrorHandler,
 	})
 

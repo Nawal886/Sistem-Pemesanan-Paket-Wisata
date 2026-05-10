@@ -73,7 +73,7 @@ const DestinasiList = () => {
           columns={columns} 
           data={data} 
           loading={loading} 
-          onRowClick={(row) => navigate(`/destinasi/${row.id}`)}
+          onRowClick={(row) => navigate(`/admin/destinasi/${row.id}`)}
         />
         
         {!loading && data.length > 0 && (

@@ -13,6 +13,34 @@ import (
 func SeedAll(db *gorm.DB) {
 	rand.Seed(time.Now().UnixNano())
 
+	// Seed Users (Admin + Customer)
+	var countUser int64
+	db.Model(&model.User{}).Count(&countUser)
+	if countUser == 0 {
+		log.Println("Seeding Users...")
+		admin := model.User{
+			Nama:    "Admin Wanderlust",
+			Email:   "admin@wanderlust.com",
+			Role:    "admin",
+			Telepon: "081200000001",
+			Alamat:  "Jakarta, Indonesia",
+		}
+		admin.HashPassword("admin123")
+
+		customer := model.User{
+			Nama:    "Budi Santoso",
+			Email:   "budi@email.com",
+			Role:    "customer",
+			Telepon: "081234567890",
+			Alamat:  "Bandung, Indonesia",
+		}
+		customer.HashPassword("customer123")
+
+		db.Create(&admin)
+		db.Create(&customer)
+		log.Println("✅ Default users seeded (admin@wanderlust.com / admin123)")
+	}
+
 	// Seed Destinasi
 	var countDestinasi int64
 	db.Model(&model.Destinasi{}).Count(&countDestinasi)

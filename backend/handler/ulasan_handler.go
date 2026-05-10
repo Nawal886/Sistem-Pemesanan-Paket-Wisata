@@ -69,10 +69,21 @@ func (h *UlasanHandler) CreateUlasan(c *fiber.Ctx) error {
 
 	tanggalWisata, _ := time.Parse("2006-01-02", req.TanggalWisata)
 
+	email := req.Email
+	nama := req.NamaPengulas
+
+	// Override with JWT data if available
+	if jwtEmail, ok := c.Locals("userEmail").(string); ok && jwtEmail != "" {
+		email = jwtEmail
+	}
+	if jwtNama, ok := c.Locals("userName").(string); ok && jwtNama != "" {
+		nama = jwtNama
+	}
+
 	ulasan := model.Ulasan{
 		PaketID:       req.PaketID,
-		NamaPengulas:  req.NamaPengulas,
-		Email:         req.Email,
+		NamaPengulas:  nama,
+		Email:         email,
 		Rating:        req.Rating,
 		Judul:         req.Judul,
 		Komentar:      req.Komentar,

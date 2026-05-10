@@ -34,7 +34,7 @@ const PaketDetail = () => {
 
   return (
     <div className="animate-fade-in">
-      <Button variant="ghost" onClick={() => navigate('/paket')} style={{ marginBottom: '20px' }}>
+      <Button variant="ghost" onClick={() => navigate('/admin/paket')} style={{ marginBottom: '20px' }}>
         ← Kembali
       </Button>
 

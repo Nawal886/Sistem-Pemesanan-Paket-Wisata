@@ -72,7 +72,7 @@ const PemesananList = () => {
           columns={columns} 
           data={data} 
           loading={loading} 
-          onRowClick={(row) => navigate(`/pemesanan/${row.id}`)}
+          onRowClick={(row) => navigate(`/admin/pemesanan/${row.id}`)}
         />
         
         {!loading && data.length > 0 && (

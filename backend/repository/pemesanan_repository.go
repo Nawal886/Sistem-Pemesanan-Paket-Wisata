@@ -48,6 +48,15 @@ func (r *PemesananRepository) Delete(pemesanan *model.Pemesanan) error {
 	return r.DB.Delete(pemesanan).Error
 }
 
+func (r *PemesananRepository) FindByEmail(email string, limit, offset int) ([]model.Pemesanan, int64, error) {
+	var pemesanan []model.Pemesanan
+	var total int64
+	query := r.DB.Model(&model.Pemesanan{}).Where("email = ?", email)
+	query.Count(&total)
+	err := query.Order("created_at DESC").Limit(limit).Offset(offset).Find(&pemesanan).Error
+	return pemesanan, total, err
+}
+
 func (r *PemesananRepository) GetPaketByID(id uint) (model.PaketWisata, error) {
 	var paket model.PaketWisata
 	err := r.DB.First(&paket, id).Error

@@ -72,7 +72,7 @@ const PaketList = () => {
           columns={columns} 
           data={data} 
           loading={loading} 
-          onRowClick={(row) => navigate(`/paket/${row.id}`)}
+          onRowClick={(row) => navigate(`/admin/paket/${row.id}`)}
         />
         
         {!loading && data.length > 0 && (

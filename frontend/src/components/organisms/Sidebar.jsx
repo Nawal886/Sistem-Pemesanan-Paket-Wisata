@@ -5,10 +5,10 @@ const Sidebar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { path: '/paket', label: 'Paket Wisata', icon: '🧳' },
-    { path: '/destinasi', label: 'Destinasi', icon: '🗺️' },
-    { path: '/pemesanan', label: 'Pemesanan', icon: '🎫' },
-    { path: '/ulasan', label: 'Ulasan', icon: '⭐' },
+    { path: '/admin/paket', label: 'Paket Wisata', icon: '🧳' },
+    { path: '/admin/destinasi', label: 'Destinasi', icon: '🗺️' },
+    { path: '/admin/pemesanan', label: 'Pemesanan', icon: '🎫' },
+    { path: '/admin/ulasan', label: 'Ulasan', icon: '⭐' },
   ];
 
   return (

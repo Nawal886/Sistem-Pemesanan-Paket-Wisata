@@ -1,0 +1,65 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authService } from '../services';
+
+const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Try to load user from local storage initially for fast render
+    const storedUser = localStorage.getItem('wanderlust_user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error('Failed to parse stored user');
+      }
+    }
+
+    const initAuth = async () => {
+      const token = localStorage.getItem('wanderlust_token');
+      if (token) {
+        try {
+          const res = await authService.getProfile();
+          if (res.data.success) {
+            setUser(res.data.data);
+            localStorage.setItem('wanderlust_user', JSON.stringify(res.data.data));
+          }
+        } catch (error) {
+          console.error('Session expired or invalid token', error);
+          logout();
+        }
+      }
+      setLoading(false);
+    };
+
+    initAuth();
+  }, []);
+
+  const login = (token, userData) => {
+    localStorage.setItem('wanderlust_token', token);
+    localStorage.setItem('wanderlust_user', JSON.stringify(userData));
+    setUser(userData);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('wanderlust_token');
+    localStorage.removeItem('wanderlust_user');
+    setUser(null);
+  };
+
+  const value = {
+    user,
+    login,
+    logout,
+    loading,
+    isAdmin: user?.role === 'admin',
+    isCustomer: user?.role === 'customer'
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};

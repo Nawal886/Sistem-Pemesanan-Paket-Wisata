@@ -35,7 +35,7 @@ const DestinasiDetail = () => {
 
   return (
     <div className="animate-fade-in">
-      <Button variant="ghost" onClick={() => navigate('/destinasi')} style={{ marginBottom: '20px' }}>
+      <Button variant="ghost" onClick={() => navigate('/admin/destinasi')} style={{ marginBottom: '20px' }}>
         ← Kembali
       </Button>
 

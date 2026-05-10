@@ -89,11 +89,23 @@ func (h *PemesananHandler) CreatePemesanan(c *fiber.Ctx) error {
 		statusPemesanan = req.StatusPemesanan
 	}
 
+	email := req.Email
+	nama := req.NamaPemesan
+	telepon := req.Telepon
+
+	// Override with JWT data if available
+	if jwtEmail, ok := c.Locals("userEmail").(string); ok && jwtEmail != "" {
+		email = jwtEmail
+	}
+	if jwtNama, ok := c.Locals("userName").(string); ok && jwtNama != "" {
+		nama = jwtNama
+	}
+
 	pemesanan := model.Pemesanan{
 		KodePemesanan:    generateKodePemesanan(),
-		NamaPemesan:      req.NamaPemesan,
-		Email:            req.Email,
-		Telepon:          req.Telepon,
+		NamaPemesan:      nama,
+		Email:            email,
+		Telepon:          telepon,
 		PaketID:          req.PaketID,
 		NamaPaket:        paket.NamaPaket,
 		TanggalBerangkat: tanggalBerangkat,
@@ -147,6 +159,36 @@ func (h *PemesananHandler) UpdatePemesanan(c *fiber.Ctx) error {
 		return JSONResponse(c, fiber.StatusInternalServerError, "Gagal memperbarui pemesanan", nil, err.Error())
 	}
 	return JSONResponse(c, fiber.StatusOK, "Pemesanan berhasil diperbarui", pemesanan, "")
+}
+
+func (h *PemesananHandler) GetMyPemesanan(c *fiber.Ctx) error {
+	email, ok := c.Locals("userEmail").(string)
+	if !ok || email == "" {
+		return JSONResponse(c, fiber.StatusUnauthorized, "Tidak terautentikasi", nil, "Unauthorized")
+	}
+
+	page, _ := strconv.Atoi(c.Query("page", "1"))
+	limit, _ := strconv.Atoi(c.Query("limit", "10"))
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 || limit > 100 {
+		limit = 10
+	}
+	offset := (page - 1) * limit
+
+	pemesanan, total, err := h.Repo.FindByEmail(email, limit, offset)
+	if err != nil {
+		return JSONResponse(c, fiber.StatusInternalServerError, "Gagal mengambil data pemesanan", nil, err.Error())
+	}
+
+	meta := fiber.Map{
+		"total": total,
+		"page":  page,
+		"limit": limit,
+		"pages": (total + int64(limit) - 1) / int64(limit),
+	}
+	return JSONResponseWithMeta(c, fiber.StatusOK, "Data pemesanan Anda berhasil diambil", pemesanan, meta, "")
 }
 
 func (h *PemesananHandler) DeletePemesanan(c *fiber.Ctx) error {

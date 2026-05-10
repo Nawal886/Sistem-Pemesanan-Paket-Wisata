@@ -73,7 +73,7 @@ const UlasanList = () => {
           columns={columns} 
           data={data} 
           loading={loading} 
-          onRowClick={(row) => navigate(`/ulasan/${row.id}`)}
+          onRowClick={(row) => navigate(`/admin/ulasan/${row.id}`)}
         />
         
         {!loading && data.length > 0 && (

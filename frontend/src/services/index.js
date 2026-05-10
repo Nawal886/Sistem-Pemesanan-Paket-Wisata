@@ -1,5 +1,11 @@
 import api from './api';
 
+export const authService = {
+  login: (data) => api.post('/auth/login', data),
+  register: (data) => api.post('/auth/register', data),
+  getProfile: () => api.get('/auth/profile'),
+};
+
 export const paketService = {
   getAll: (params = {}) => api.get('/paket', { params }),
   getById: (id) => api.get(`/paket/${id}`),
@@ -19,6 +25,7 @@ export const destibasiService = {
 export const pemesananService = {
   getAll: (params = {}) => api.get('/pemesanan', { params }),
   getById: (id) => api.get(`/pemesanan/${id}`),
+  getMyPemesanan: (params = {}) => api.get('/my/pemesanan', { params }),
   create: (data) => api.post('/pemesanan', data),
   update: (id, data) => api.put(`/pemesanan/${id}`, data),
   delete: (id) => api.delete(`/pemesanan/${id}`),
