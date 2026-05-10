@@ -6,6 +6,7 @@ import Pagination from '../../components/molecules/Pagination';
 import SearchBar from '../../components/molecules/SearchBar';
 import Badge from '../../components/atoms/Badge';
 import StarRating from '../../components/atoms/StarRating';
+import Button from '../../components/atoms/Button';
 
 const DestinasiList = () => {
   const navigate = useNavigate();
@@ -41,6 +42,18 @@ const DestinasiList = () => {
     }
   };
 
+  const handleDelete = async (id, e) => {
+    e.stopPropagation();
+    if (window.confirm('Apakah Anda yakin ingin menghapus destinasi ini?')) {
+      try {
+        await destibasiService.delete(id);
+        fetchDestinasi();
+      } catch (err) {
+        alert(err.message || 'Gagal menghapus destinasi');
+      }
+    }
+  };
+
   const columns = [
     { header: 'ID', accessor: 'id' },
     { header: 'Nama Destinasi', accessor: 'nama_destinasi', render: (row) => <strong style={{color: 'var(--primary-light)'}}>{row.nama_destinasi}</strong> },
@@ -48,6 +61,16 @@ const DestinasiList = () => {
     { header: 'Negara', accessor: 'negara' },
     { header: 'Rating', accessor: 'rating', render: (row) => <div style={{display:'flex', alignItems:'center', gap:'8px'}}><StarRating rating={Math.round(row.rating)} /> <span style={{fontSize:'0.8rem'}}>{row.rating}</span></div> },
     { header: 'Status', accessor: 'status', render: (row) => <Badge variant={row.status}>{row.status}</Badge> },
+    {
+      header: 'Aksi',
+      accessor: 'id',
+      render: (row) => (
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button size="sm" variant="secondary" onClick={(e) => { e.stopPropagation(); navigate(`/admin/destinasi/edit/${row.id}`); }}>Edit</Button>
+          <Button size="sm" variant="danger" onClick={(e) => handleDelete(row.id, e)}>Hapus</Button>
+        </div>
+      )
+    },
   ];
 
   return (
@@ -55,8 +78,9 @@ const DestinasiList = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
           <h1 style={{ margin: '0 0 8px 0' }}>Destinasi Wisata</h1>
-          <p style={{ margin: 0, color: 'var(--text-secondary)' }}>Eksplorasi destinasi wisata unggulan.</p>
+          <p style={{ margin: 0, color: 'var(--text-secondary)' }}>Kelola data destinasi wisata unggulan.</p>
         </div>
+        <Button variant="primary" onClick={() => navigate('/admin/destinasi/new')}>+ Tambah Destinasi</Button>
       </div>
 
       <div className="glass" style={{ padding: '24px', borderRadius: '16px', marginBottom: '24px' }}>

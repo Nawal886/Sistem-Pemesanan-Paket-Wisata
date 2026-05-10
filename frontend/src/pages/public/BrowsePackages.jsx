@@ -6,6 +6,7 @@ import Pagination from '../../components/molecules/Pagination';
 import Spinner from '../../components/atoms/Spinner';
 import Badge from '../../components/atoms/Badge';
 import Button from '../../components/atoms/Button';
+import { getPackageImage } from '../../utils/images';
 
 const BrowsePackages = () => {
   const navigate = useNavigate();
@@ -66,12 +67,17 @@ const BrowsePackages = () => {
                 borderRadius: '20px', overflow: 'hidden',
                 transition: 'transform 0.3s, box-shadow 0.3s',
               }}>
-                <div style={{ height: '200px', background: 'var(--bg-input)', position: 'relative' }}>
-                  <div style={{ position: 'absolute', top: '16px', left: '16px' }}>
-                    <Badge variant="primary">{paket.kategori}</Badge>
-                  </div>
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '4rem' }}>
-                    {paket.kategori.includes('Pantai') ? '🏖️' : paket.kategori.includes('Gunung') ? '⛰️' : '🗺️'}
+                <div style={{ height: '220px', position: 'relative', overflow: 'hidden' }}>
+                  <img 
+                    src={getPackageImage(paket.kategori)} 
+                    alt={paket.nama_paket}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
+                    onMouseEnter={e => e.target.style.transform = 'scale(1.1)'}
+                    onMouseLeave={e => e.target.style.transform = 'scale(1)'}
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)' }} />
+                  <div style={{ position: 'absolute', top: '16px', left: '16px', zIndex: 2 }}>
+                    <Badge variant="primary" style={{ background: 'rgba(10, 11, 30, 0.85)', backdropFilter: 'blur(4px)' }}>{paket.kategori}</Badge>
                   </div>
                 </div>
                 <div style={{ padding: '24px' }}>

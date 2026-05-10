@@ -5,6 +5,7 @@ import Spinner from '../../components/atoms/Spinner';
 import Badge from '../../components/atoms/Badge';
 import StarRating from '../../components/atoms/StarRating';
 import BookingForm from './BookingForm';
+import { getPackageImage } from '../../utils/images';
 
 const PublicPackageDetail = () => {
   const { id } = useParams();
@@ -47,8 +48,13 @@ const PublicPackageDetail = () => {
       <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '40px', alignItems: 'start' }}>
         {/* Left Column - Details */}
         <div>
-          <div style={{ height: '400px', background: 'var(--bg-input)', borderRadius: '24px', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8rem' }}>
-             {data.kategori.includes('Pantai') ? '🏖️' : data.kategori.includes('Gunung') ? '⛰️' : '🗺️'}
+          <div style={{ height: '400px', borderRadius: '24px', marginBottom: '32px', overflow: 'hidden', position: 'relative' }}>
+            <img 
+              src={getPackageImage(data.kategori)} 
+              alt={data.nama_paket}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 50%)' }} />
           </div>
 
           <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>

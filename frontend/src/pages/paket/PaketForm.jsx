@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { paketService } from '../../services';
+import { paketService, destibasiService } from '../../services';
 import Button from '../../components/atoms/Button';
 import Input from '../../components/atoms/Input';
 import Spinner from '../../components/atoms/Spinner';
@@ -19,14 +19,20 @@ const PaketForm = () => {
     kategori: '',
     status: 'aktif'
   });
-  const [loading, setLoading] = useState(isEdit);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [destinasiList, setDestinasiList] = useState([]);
 
   useEffect(() => {
-    if (isEdit) {
-      const fetchDetail = async () => {
-        try {
+    const fetchInitData = async () => {
+      try {
+        const destRes = await destibasiService.getAll({ limit: 100 });
+        if (destRes.data.success) {
+          setDestinasiList(destRes.data.data || []);
+        }
+
+        if (isEdit) {
           const res = await paketService.getById(id);
           if (res.data.success) {
             const data = res.data.data;
@@ -40,18 +46,31 @@ const PaketForm = () => {
               status: data.status || 'aktif'
             });
           }
-        } catch (err) {
-          setError(err.message || 'Gagal memuat data');
-        } finally {
-          setLoading(false);
+        } else {
+          // If not edit and destinasi is available, set first as default if needed
+          // But it's better to let them select or set empty string
         }
-      };
-      fetchDetail();
-    }
+      } catch (err) {
+        setError(err.message || 'Gagal memuat data');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchInitData();
   }, [id, isEdit]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleHargaChange = (e) => {
+    const rawValue = e.target.value.replace(/\D/g, '');
+    setFormData({ ...formData, harga: rawValue });
+  };
+
+  const formatRupiah = (value) => {
+    if (!value) return '';
+    return new Intl.NumberFormat('id-ID').format(value);
   };
 
   const handleSubmit = async (e) => {
@@ -62,9 +81,9 @@ const PaketForm = () => {
     try {
       const payload = {
         ...formData,
-        harga: parseFloat(formData.harga),
-        durasi: parseInt(formData.durasi),
-        max_peserta: parseInt(formData.max_peserta)
+        harga: parseFloat(formData.harga) || 0,
+        durasi: parseInt(formData.durasi) || 0,
+        max_peserta: parseInt(formData.max_peserta) || 0
       };
 
       if (isEdit) {
@@ -97,13 +116,24 @@ const PaketForm = () => {
         )}
         
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <Input 
-            label="Nama Paket" 
-            name="nama_paket"
-            value={formData.nama_paket} 
-            onChange={handleChange} 
-            required 
-          />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Destinasi (Nama Paket)</label>
+            <select 
+              name="nama_paket"
+              value={formData.nama_paket} 
+              onChange={handleChange}
+              style={{ padding: '12px', borderRadius: '10px', background: 'var(--bg-input)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
+              required 
+            >
+              <option value="" disabled>-- Pilih Destinasi --</option>
+              {destinasiList.map(d => (
+                <option key={d.id} value={d.nama_destinasi}>{d.nama_destinasi} ({d.provinsi})</option>
+              ))}
+              {isEdit && !destinasiList.find(d => d.nama_destinasi === formData.nama_paket) && (
+                 <option value={formData.nama_paket}>{formData.nama_paket} (Lainnya)</option>
+              )}
+            </select>
+          </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Deskripsi</label>
@@ -120,10 +150,10 @@ const PaketForm = () => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             <Input 
               label="Harga (Rp)" 
-              type="number"
+              type="text"
               name="harga"
-              value={formData.harga} 
-              onChange={handleChange} 
+              value={formatRupiah(formData.harga)} 
+              onChange={handleHargaChange} 
               required 
             />
             <Input 

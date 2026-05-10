@@ -48,6 +48,9 @@ const RegisterPage = () => {
         padding: '40px 32px',
         borderRadius: '24px'
       }}>
+        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', textDecoration: 'none', marginBottom: '24px', fontWeight: '500', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = 'var(--primary)'} onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}>
+          ← Kembali ke Beranda
+        </Link>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h1 style={{ fontSize: '2.5rem', margin: '0 0 8px' }}>🚀</h1>
           <h2 className="gradient-text" style={{ fontSize: '1.8rem', margin: 0 }}>Daftar Akun Baru</h2>

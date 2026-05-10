@@ -34,7 +34,17 @@ api.interceptors.response.use(
         window.location.href = '/login';
       }
     }
-    const message = error.response?.data?.message || error.message || 'Terjadi kesalahan';
+    let message = error.response?.data?.message || error.message || 'Terjadi kesalahan';
+    
+    // Append detailed validation errors if they exist
+    const validationData = error.response?.data?.data;
+    if (validationData && typeof validationData === 'object' && Object.keys(validationData).length > 0) {
+      const details = Object.entries(validationData)
+        .map(([field, err]) => `${field}: ${err}`)
+        .join(', ');
+      message = `${message} (${details})`;
+    }
+
     return Promise.reject(new Error(message));
   }
 );

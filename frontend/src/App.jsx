@@ -18,11 +18,13 @@ import ReviewForm from './pages/public/ReviewForm';
 import ProfilePage from './pages/public/ProfilePage';
 
 // Admin Pages
+import AdminDashboard from './pages/admin/AdminDashboard';
 import PaketList from './pages/paket/PaketList';
 import PaketDetail from './pages/paket/PaketDetail';
 import PaketForm from './pages/paket/PaketForm';
 import DestinasiList from './pages/destinasi/DestinasiList';
 import DestinasiDetail from './pages/destinasi/DestinasiDetail';
+import DestinasiForm from './pages/destinasi/DestinasiForm';
 import PemesananList from './pages/pemesanan/PemesananList';
 import PemesananDetail from './pages/pemesanan/PemesananDetail';
 import UlasanList from './pages/ulasan/UlasanList';
@@ -92,14 +94,18 @@ function App() {
           </ProtectedAdminRoute>
         }
       >
-        <Route index element={<Navigate to="paket" replace />} />
+        <Route index element={<Navigate to="dashboard" replace />} />
         
+        <Route path="dashboard" element={<AdminDashboard />} />
+
         <Route path="paket" element={<PaketList />} />
         <Route path="paket/new" element={<PaketForm />} />
         <Route path="paket/edit/:id" element={<PaketForm />} />
         <Route path="paket/:id" element={<PaketDetail />} />
         
         <Route path="destinasi" element={<DestinasiList />} />
+        <Route path="destinasi/new" element={<DestinasiForm />} />
+        <Route path="destinasi/edit/:id" element={<DestinasiForm />} />
         <Route path="destinasi/:id" element={<DestinasiDetail />} />
         
         <Route path="pemesanan" element={<PemesananList />} />

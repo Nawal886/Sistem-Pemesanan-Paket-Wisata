@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = ({ label, value, onChange, placeholder, type = 'text', icon, error, style }) => {
+const Input = ({ label, value, onChange, placeholder, type = 'text', icon, error, style, name, ...props }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', ...style }}>
       {label && (
@@ -19,9 +19,11 @@ const Input = ({ label, value, onChange, placeholder, type = 'text', icon, error
         )}
         <input
           type={type}
+          name={name}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          {...props}
           style={{
             width: '100%',
             padding: icon ? '10px 14px 10px 38px' : '10px 14px',

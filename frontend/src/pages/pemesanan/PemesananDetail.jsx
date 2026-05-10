@@ -10,33 +10,95 @@ const PemesananDetail = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const fetchDetail = async () => {
+    try {
+      const res = await pemesananService.getById(id);
+      if (res.data.success) {
+        setData(res.data.data);
+      }
+    } catch (err) {
+      setError(err.message || 'Gagal memuat data');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchDetail = async () => {
-      try {
-        const res = await pemesananService.getById(id);
-        if (res.data.success) {
-          setData(res.data.data);
-        }
-      } catch (err) {
-        setError(err.message || 'Gagal memuat data');
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchDetail();
   }, [id]);
 
+  const handleStatusChange = async (newStatus) => {
+    const statusLabels = {
+      confirmed: 'Dikonfirmasi',
+      completed: 'Selesai',
+      cancelled: 'Dibatalkan',
+    };
+
+    if (!window.confirm(`Ubah status pesanan menjadi "${statusLabels[newStatus]}"?`)) return;
+
+    setUpdating(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      await pemesananService.update(id, { ...data, status_pemesanan: newStatus });
+      setData({ ...data, status_pemesanan: newStatus });
+      setSuccess(`Status berhasil diubah menjadi "${statusLabels[newStatus]}"`);
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err) {
+      setError(err.message || 'Gagal mengubah status');
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   if (loading) return <Spinner />;
-  if (error) return <div style={{ color: 'var(--danger)', padding: '20px' }}>Error: {error}</div>;
+  if (error && !data) return <div style={{ color: 'var(--danger)', padding: '20px' }}>Error: {error}</div>;
   if (!data) return <div>Data tidak ditemukan.</div>;
+
+  // Determine which status transitions are available
+  const statusActions = [];
+  if (data.status_pemesanan === 'pending') {
+    statusActions.push({ status: 'confirmed', label: '✅ Konfirmasi Pesanan', variant: 'primary' });
+    statusActions.push({ status: 'cancelled', label: '❌ Tolak / Batalkan', variant: 'danger' });
+  }
+  if (data.status_pemesanan === 'confirmed') {
+    statusActions.push({ status: 'completed', label: '🏁 Tandai Selesai', variant: 'primary' });
+    statusActions.push({ status: 'cancelled', label: '❌ Batalkan', variant: 'danger' });
+  }
 
   return (
     <div className="animate-fade-in">
       <Button variant="ghost" onClick={() => navigate('/admin/pemesanan')} style={{ marginBottom: '20px' }}>
         ← Kembali
       </Button>
+
+      {/* Alerts */}
+      {success && (
+        <div style={{
+          background: 'rgba(0, 217, 165, 0.1)',
+          border: '1px solid rgba(0, 217, 165, 0.3)',
+          color: 'var(--success)',
+          padding: '14px 20px', borderRadius: '12px', marginBottom: '20px',
+          display: 'flex', alignItems: 'center', gap: '10px'
+        }}>
+          ✅ {success}
+        </div>
+      )}
+      {error && data && (
+        <div style={{
+          background: 'rgba(255, 77, 106, 0.1)',
+          border: '1px solid rgba(255, 77, 106, 0.3)',
+          color: 'var(--danger)',
+          padding: '14px 20px', borderRadius: '12px', marginBottom: '20px',
+        }}>
+          {error}
+        </div>
+      )}
 
       <div className="glass" style={{ padding: '32px', borderRadius: '16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px', borderBottom: '1px solid var(--border)', paddingBottom: '24px' }}>
@@ -98,6 +160,47 @@ const PemesananDetail = () => {
             </div>
           </div>
         </div>
+
+        {/* Status Action Buttons */}
+        {statusActions.length > 0 && (
+          <div style={{
+            marginTop: '32px', paddingTop: '24px',
+            borderTop: '1px solid var(--border)',
+          }}>
+            <h3 style={{ color: 'var(--text-secondary)', marginBottom: '16px', fontSize: '1rem' }}>Kelola Status Pesanan</h3>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              {statusActions.map(action => (
+                <Button
+                  key={action.status}
+                  variant={action.variant}
+                  onClick={() => handleStatusChange(action.status)}
+                  loading={updating}
+                  style={{ flex: 1 }}
+                >
+                  {action.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Final status indicator */}
+        {(data.status_pemesanan === 'completed' || data.status_pemesanan === 'cancelled') && (
+          <div style={{
+            marginTop: '32px', paddingTop: '24px',
+            borderTop: '1px solid var(--border)',
+            textAlign: 'center', padding: '24px',
+            background: data.status_pemesanan === 'completed' ? 'rgba(0, 217, 165, 0.08)' : 'rgba(255, 77, 106, 0.08)',
+            borderRadius: '16px',
+          }}>
+            <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>
+              {data.status_pemesanan === 'completed' ? '🎉' : '🚫'}
+            </div>
+            <div style={{ fontSize: '1.1rem', fontWeight: '700', color: data.status_pemesanan === 'completed' ? 'var(--success)' : 'var(--danger)' }}>
+              {data.status_pemesanan === 'completed' ? 'Pesanan telah selesai' : 'Pesanan telah dibatalkan'}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
