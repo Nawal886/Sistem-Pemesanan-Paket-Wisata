@@ -15,6 +15,7 @@ import BrowsePackages from './pages/public/BrowsePackages';
 import PublicPackageDetail from './pages/public/PublicPackageDetail';
 import MyBookings from './pages/public/MyBookings';
 import ReviewForm from './pages/public/ReviewForm';
+import ProfilePage from './pages/public/ProfilePage';
 
 // Admin Pages
 import PaketList from './pages/paket/PaketList';
@@ -65,6 +66,14 @@ function App() {
           element={
             <ProtectedCustomerRoute>
               <ReviewForm />
+            </ProtectedCustomerRoute>
+          } 
+        />
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedCustomerRoute>
+              <ProfilePage />
             </ProtectedCustomerRoute>
           } 
         />

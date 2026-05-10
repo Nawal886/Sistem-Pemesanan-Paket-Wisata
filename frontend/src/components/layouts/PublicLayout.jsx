@@ -27,9 +27,12 @@ const PublicLayout = () => {
 
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <span style={{ color: 'var(--text-secondary)' }}>
+              <Link to="/profile" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>
                 Halo, <strong style={{ color: 'var(--primary-light)' }}>{user.nama}</strong>
-              </span>
+              </Link>
+              <Link to="/profile" style={{ color: 'var(--text-primary)', fontWeight: '500' }}>
+                Profil
+              </Link>
               {isCustomer && (
                 <Link to="/my-bookings" style={{ color: 'var(--text-primary)', fontWeight: '500' }}>
                   Pesanan Saya

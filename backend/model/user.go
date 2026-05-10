@@ -54,6 +54,13 @@ type LoginRequest struct {
 	Password string `json:"password" validate:"required"`
 }
 
+// UpdateProfileRequest is used for updating user profile
+type UpdateProfileRequest struct {
+	Nama    string `json:"nama" validate:"required,min=3,max=150"`
+	Telepon string `json:"telepon" validate:"omitempty,min=10,max=20"`
+	Alamat  string `json:"alamat"`
+}
+
 // LoginResponse is returned after successful login
 type LoginResponse struct {
 	Token string `json:"token"`

@@ -40,3 +40,7 @@ func (r *UserRepository) EmailExists(email string) bool {
 	r.DB.Model(&model.User{}).Where("email = ?", email).Count(&count)
 	return count > 0
 }
+
+func (r *UserRepository) Update(user *model.User) error {
+	return r.DB.Save(user).Error
+}

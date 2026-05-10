@@ -109,3 +109,36 @@ func (h *AuthHandler) GetProfile(c *fiber.Ctx) error {
 
 	return JSONResponse(c, fiber.StatusOK, "Profil pengguna", user, "")
 }
+
+// UpdateProfile updates the authenticated user's profile
+func (h *AuthHandler) UpdateProfile(c *fiber.Ctx) error {
+	userID, ok := c.Locals("userID").(uint)
+	if !ok {
+		return JSONResponse(c, fiber.StatusUnauthorized, "Tidak terautentikasi", nil, "Unauthorized")
+	}
+
+	req := new(model.UpdateProfileRequest)
+	if err := c.BodyParser(req); err != nil {
+		return JSONResponse(c, fiber.StatusBadRequest, "Format request tidak valid", nil, err.Error())
+	}
+
+	if err := validate.Struct(req); err != nil {
+		errors := formatValidationErrors(err)
+		return JSONResponse(c, fiber.StatusBadRequest, "Validasi gagal", errors, err.Error())
+	}
+
+	user, err := h.Repo.FindByID(userID)
+	if err != nil {
+		return JSONResponse(c, fiber.StatusNotFound, "Pengguna tidak ditemukan", nil, err.Error())
+	}
+
+	user.Nama = req.Nama
+	user.Telepon = req.Telepon
+	user.Alamat = req.Alamat
+
+	if err := h.Repo.Update(user); err != nil {
+		return JSONResponse(c, fiber.StatusInternalServerError, "Gagal memperbarui profil", nil, err.Error())
+	}
+
+	return JSONResponse(c, fiber.StatusOK, "Profil berhasil diperbarui", user, "")
+}

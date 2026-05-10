@@ -52,10 +52,16 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateUser = (userData) => {
+    localStorage.setItem('wisataku_user', JSON.stringify(userData));
+    setUser(userData);
+  };
+
   const value = {
     user,
     login,
     logout,
+    updateUser,
     loading,
     isAdmin: user?.role === 'admin',
     isCustomer: user?.role === 'customer'

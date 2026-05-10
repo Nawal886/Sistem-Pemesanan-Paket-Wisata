@@ -35,6 +35,7 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 	auth.Post("/register", authHandler.Register)
 	auth.Post("/login", authHandler.Login)
 	auth.Get("/profile", middleware.AuthRequired(), authHandler.GetProfile)
+	auth.Put("/profile", middleware.AuthRequired(), authHandler.UpdateProfile)
 
 	// ==========================================
 	// Paket Wisata routes
