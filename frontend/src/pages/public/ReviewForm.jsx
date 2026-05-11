@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ulasanService } from '../../services';
+import { useAuth } from '../../context/AuthContext';
 import Input from '../../components/atoms/Input';
 import Button from '../../components/atoms/Button';
 import StarRating from '../../components/atoms/StarRating';
@@ -8,6 +9,7 @@ import StarRating from '../../components/atoms/StarRating';
 const ReviewForm = () => {
   const { paketId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   
   const [formData, setFormData] = useState({
     rating: 5,
@@ -27,7 +29,9 @@ const ReviewForm = () => {
       const payload = {
         ...formData,
         paket_id: parseInt(paketId),
-        rating: parseInt(formData.rating)
+        rating: parseInt(formData.rating),
+        nama_pengulas: user?.nama || 'Anonim',
+        email: user?.email || ''
       };
 
       const res = await ulasanService.create(payload);
@@ -35,7 +39,7 @@ const ReviewForm = () => {
         navigate(`/packages/${paketId}`);
       }
     } catch (err) {
-      setError(err.message || 'Gagal mengirim ulasan');
+      setError(err.response?.data?.message || err.message || 'Gagal mengirim ulasan');
     } finally {
       setLoading(false);
     }

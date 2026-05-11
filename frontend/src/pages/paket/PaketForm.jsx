@@ -17,7 +17,9 @@ const PaketForm = () => {
     durasi: '',
     max_peserta: '',
     kategori: '',
-    status: 'aktif'
+    status: 'aktif',
+    jadwal_berangkat: '',
+    lokasi_berangkat: ''
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -43,7 +45,9 @@ const PaketForm = () => {
               durasi: data.durasi || '',
               max_peserta: data.max_peserta || '',
               kategori: data.kategori || '',
-              status: data.status || 'aktif'
+              status: data.status || 'aktif',
+              jadwal_berangkat: data.jadwal_berangkat || '',
+              lokasi_berangkat: data.lokasi_berangkat || ''
             });
           }
         } else {
@@ -180,6 +184,25 @@ const PaketForm = () => {
               name="kategori"
               value={formData.kategori} 
               onChange={handleChange} 
+              required 
+            />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <Input 
+              label="Jadwal Berangkat" 
+              name="jadwal_berangkat"
+              value={formData.jadwal_berangkat} 
+              onChange={handleChange} 
+              placeholder="Contoh: 08:00 WIB"
+              required 
+            />
+            <Input 
+              label="Lokasi Berangkat" 
+              name="lokasi_berangkat"
+              value={formData.lokasi_berangkat} 
+              onChange={handleChange} 
+              placeholder="Contoh: Terminal Leuwipanjang"
               required 
             />
           </div>

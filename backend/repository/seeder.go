@@ -67,20 +67,42 @@ func SeedAll(db *gorm.DB) {
 	if countPaket == 0 {
 		log.Println("Seeding Paket Wisata...")
 		pakets := []model.PaketWisata{
-			{NamaPaket: "Eksplorasi Bali 3H2M", Kategori: "Pantai & Budaya", Deskripsi: "Nikmati keindahan pantai dan budaya Bali selama 3 hari.", Harga: 1500000, Durasi: 3, MaxPeserta: 20, Status: "aktif"},
-			{NamaPaket: "Petualangan Bromo Midnight", Kategori: "Pegunungan", Deskripsi: "Melihat sunrise di Gunung Bromo dengan jeep.", Harga: 750000, Durasi: 1, MaxPeserta: 10, Status: "aktif"},
-			{NamaPaket: "Tour Sejarah Yogyakarta", Kategori: "Budaya & Sejarah", Deskripsi: "Mengunjungi Candi Borobudur, Prambanan, dan Keraton.", Harga: 1200000, Durasi: 2, MaxPeserta: 15, Status: "aktif"},
-			{NamaPaket: "Diving Raja Ampat", Kategori: "Bahari", Deskripsi: "Menyelam di surga bawah laut Raja Ampat.", Harga: 5000000, Durasi: 5, MaxPeserta: 8, Status: "aktif"},
-			{NamaPaket: "Sailing Komodo 3H2M", Kategori: "Bahari & Satwa", Deskripsi: "Berlayar mengelilingi Taman Nasional Komodo.", Harga: 2500000, Durasi: 3, MaxPeserta: 12, Status: "aktif"},
-			{NamaPaket: "Tour Danau Toba & Samosir", Kategori: "Alam", Deskripsi: "Menikmati keindahan Danau Toba dan kebudayaan Batak.", Harga: 1800000, Durasi: 3, MaxPeserta: 15, Status: "aktif"},
-			{NamaPaket: "Jelajah Kawah Putih & Glamping", Kategori: "Alam", Deskripsi: "Wisata alam di Kawah Putih dan menginap di glamping Ciwidey.", Harga: 900000, Durasi: 2, MaxPeserta: 20, Status: "aktif"},
-			{NamaPaket: "Wisata Budaya Tana Toraja", Kategori: "Budaya", Deskripsi: "Mengenal adat istiadat unik Tana Toraja.", Harga: 2200000, Durasi: 4, MaxPeserta: 10, Status: "aktif"},
-			{NamaPaket: "Snorkeling Pulau Weh", Kategori: "Bahari", Deskripsi: "Menikmati pesona bawah laut di ujung barat Indonesia.", Harga: 1600000, Durasi: 3, MaxPeserta: 12, Status: "aktif"},
-			{NamaPaket: "City Tour Bandung Raya", Kategori: "Kota & Kuliner", Deskripsi: "Berkeliling kota Bandung menikmati kuliner dan tempat hits.", Harga: 500000, Durasi: 1, MaxPeserta: 25, Status: "aktif"},
+			{NamaPaket: "Eksplorasi Bali 3H2M", Kategori: "Pantai & Budaya", Deskripsi: "Nikmati keindahan pantai dan budaya Bali selama 3 hari.", Harga: 1500000, Durasi: 3, MaxPeserta: 20, Status: "aktif", JadwalBerangkat: "Setiap Hari, 08:00 WITA", LokasiBerangkat: "Bandara I Gusti Ngurah Rai"},
+			{NamaPaket: "Petualangan Bromo Midnight", Kategori: "Pegunungan", Deskripsi: "Melihat sunrise di Gunung Bromo dengan jeep.", Harga: 750000, Durasi: 1, MaxPeserta: 10, Status: "aktif", JadwalBerangkat: "23:00 WIB (Penjemputan)", LokasiBerangkat: "Stasiun Malang / Hotel"},
+			{NamaPaket: "Tour Sejarah Yogyakarta", Kategori: "Budaya & Sejarah", Deskripsi: "Mengunjungi Candi Borobudur, Prambanan, dan Keraton.", Harga: 1200000, Durasi: 2, MaxPeserta: 15, Status: "aktif", JadwalBerangkat: "Sabtu & Minggu, 07:00 WIB", LokasiBerangkat: "Stasiun Tugu Yogyakarta"},
+			{NamaPaket: "Diving Raja Ampat", Kategori: "Bahari", Deskripsi: "Menyelam di surga bawah laut Raja Ampat.", Harga: 5000000, Durasi: 5, MaxPeserta: 8, Status: "aktif", JadwalBerangkat: "Senin, 09:00 WIT", LokasiBerangkat: "Pelabuhan Sorong"},
+			{NamaPaket: "Sailing Komodo 3H2M", Kategori: "Bahari & Satwa", Deskripsi: "Berlayar mengelilingi Taman Nasional Komodo.", Harga: 2500000, Durasi: 3, MaxPeserta: 12, Status: "aktif", JadwalBerangkat: "Jumat, 10:00 WITA", LokasiBerangkat: "Labuan Bajo Marina"},
+			{NamaPaket: "Tour Danau Toba & Samosir", Kategori: "Alam", Deskripsi: "Menikmati keindahan Danau Toba dan kebudayaan Batak.", Harga: 1800000, Durasi: 3, MaxPeserta: 15, Status: "aktif", JadwalBerangkat: "Setiap Kamis, 08:00 WIB", LokasiBerangkat: "Bandara Silangit"},
+			{NamaPaket: "Jelajah Kawah Putih & Glamping", Kategori: "Alam", Deskripsi: "Wisata alam di Kawah Putih dan menginap di glamping Ciwidey.", Harga: 900000, Durasi: 2, MaxPeserta: 20, Status: "aktif", JadwalBerangkat: "Sabtu, 06:00 WIB", LokasiBerangkat: "Terminal Leuwipanjang"},
+			{NamaPaket: "Wisata Budaya Tana Toraja", Kategori: "Budaya", Deskripsi: "Mengenal adat istiadat unik Tana Toraja.", Harga: 2200000, Durasi: 4, MaxPeserta: 10, Status: "aktif", JadwalBerangkat: "Kondisional", LokasiBerangkat: "Bandara Sultan Hasanuddin"},
+			{NamaPaket: "Snorkeling Pulau Weh", Kategori: "Bahari", Deskripsi: "Menikmati pesona bawah laut di ujung barat Indonesia.", Harga: 1600000, Durasi: 3, MaxPeserta: 12, Status: "aktif", JadwalBerangkat: "Selasa, 09:00 WIB", LokasiBerangkat: "Pelabuhan Ulee Lheue"},
+			{NamaPaket: "City Tour Bandung Raya", Kategori: "Kota & Kuliner", Deskripsi: "Berkeliling kota Bandung menikmati kuliner dan tempat hits.", Harga: 500000, Durasi: 1, MaxPeserta: 25, Status: "aktif", JadwalBerangkat: "Setiap Hari, 09:00 WIB", LokasiBerangkat: "Alun-Alun Bandung"},
 		}
-		// Fix struct field ObjKultur -> removing it since it doesn't exist, recreating slice correctly
-		pakets[2] = model.PaketWisata{NamaPaket: "Tour Sejarah Yogyakarta", Kategori: "Budaya & Sejarah", Deskripsi: "Mengunjungi Candi Borobudur, Prambanan, dan Keraton.", Harga: 1200000, Durasi: 2, MaxPeserta: 15, Status: "aktif"}
 		db.Create(&pakets)
+	}
+
+	// Update existing paket that have empty jadwal/lokasi
+	jadwalMap := map[string][2]string{
+		"Eksplorasi Bali 3H2M":          {"Setiap Hari, 08:00 WITA", "Bandara I Gusti Ngurah Rai"},
+		"Petualangan Bromo Midnight":     {"23:00 WIB (Penjemputan)", "Stasiun Malang / Hotel"},
+		"Tour Sejarah Yogyakarta":        {"Sabtu & Minggu, 07:00 WIB", "Stasiun Tugu Yogyakarta"},
+		"Diving Raja Ampat":              {"Senin, 09:00 WIT", "Pelabuhan Sorong"},
+		"Sailing Komodo 3H2M":            {"Jumat, 10:00 WITA", "Labuan Bajo Marina"},
+		"Tour Danau Toba & Samosir":      {"Setiap Kamis, 08:00 WIB", "Bandara Silangit"},
+		"Jelajah Kawah Putih & Glamping":  {"Sabtu, 06:00 WIB", "Terminal Leuwipanjang"},
+		"Wisata Budaya Tana Toraja":       {"Kondisional", "Bandara Sultan Hasanuddin"},
+		"Snorkeling Pulau Weh":            {"Selasa, 09:00 WIB", "Pelabuhan Ulee Lheue"},
+		"City Tour Bandung Raya":          {"Setiap Hari, 09:00 WIB", "Alun-Alun Bandung"},
+	}
+	var emptyPakets []model.PaketWisata
+	db.Where("jadwal_berangkat = '' OR jadwal_berangkat IS NULL").Find(&emptyPakets)
+	for _, p := range emptyPakets {
+		if val, ok := jadwalMap[p.NamaPaket]; ok {
+			db.Model(&p).Updates(map[string]interface{}{
+				"jadwal_berangkat": val[0],
+				"lokasi_berangkat": val[1],
+			})
+		}
 	}
 
 	// Fetch packages to get their IDs for related tables

@@ -117,8 +117,10 @@ func CreatePaket(c *fiber.Ctx) error {
 		Harga:      req.Harga,
 		Durasi:     req.Durasi,
 		MaxPeserta: req.MaxPeserta,
-		Status:     req.Status,
-		Thumbnail:  req.Thumbnail,
+		Status:          req.Status,
+		Thumbnail:       req.Thumbnail,
+		JadwalBerangkat: req.JadwalBerangkat,
+		LokasiBerangkat: req.LokasiBerangkat,
 	}
 
 	if err := config.DB.Create(&paket).Error; err != nil {
@@ -180,6 +182,8 @@ func UpdatePaket(c *fiber.Ctx) error {
 	paket.MaxPeserta = req.MaxPeserta
 	paket.Status = req.Status
 	paket.Thumbnail = req.Thumbnail
+	paket.JadwalBerangkat = req.JadwalBerangkat
+	paket.LokasiBerangkat = req.LokasiBerangkat
 
 	if err := config.DB.Save(&paket).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

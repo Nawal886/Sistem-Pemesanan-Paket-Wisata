@@ -14,9 +14,11 @@ type PaketWisata struct {
 	Durasi     int       `gorm:"not null" json:"durasi"` // in days
 	MaxPeserta int       `gorm:"not null" json:"max_peserta"`
 	Status     string    `gorm:"type:varchar(20);not null;default:'aktif'" json:"status"` // aktif, nonaktif
-	Thumbnail  string    `gorm:"type:text" json:"thumbnail"`
-	CreatedAt  time.Time `gorm:"autoCreateTime" json:"created_at"`
-	UpdatedAt  time.Time `gorm:"autoUpdateTime" json:"updated_at"`
+	Thumbnail       string    `gorm:"type:text" json:"thumbnail"`
+	JadwalBerangkat string    `gorm:"type:varchar(100)" json:"jadwal_berangkat"`
+	LokasiBerangkat string    `gorm:"type:varchar(150)" json:"lokasi_berangkat"`
+	CreatedAt       time.Time `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt       time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }
 
 func (PaketWisata) TableName() string {
@@ -31,6 +33,8 @@ type PaketRequest struct {
 	Harga      float64 `json:"harga" validate:"required,min=0"`
 	Durasi     int     `json:"durasi" validate:"required,min=1"`
 	MaxPeserta int     `json:"max_peserta" validate:"required,min=1"`
-	Status     string  `json:"status" validate:"required,oneof=aktif nonaktif"`
-	Thumbnail  string  `json:"thumbnail"`
+	Status          string  `json:"status" validate:"required,oneof=aktif nonaktif"`
+	Thumbnail       string  `json:"thumbnail"`
+	JadwalBerangkat string  `json:"jadwal_berangkat"`
+	LokasiBerangkat string  `json:"lokasi_berangkat"`
 }

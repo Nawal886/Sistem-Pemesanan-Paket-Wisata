@@ -70,6 +70,18 @@ const PublicPackageDetail = () => {
             <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.1rem' }}>{data.deskripsi}</p>
           </div>
 
+          {/* Informasi Keberangkatan */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '40px', padding: '24px', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '20px', border: '1px solid var(--border)' }}>
+            <div>
+              <h4 style={{ margin: '0 0 8px', color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Jadwal Berangkat</h4>
+              <p style={{ margin: 0, color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: '600' }}>🕒 {data.jadwal_berangkat || 'Tanyakan CS'}</p>
+            </div>
+            <div>
+              <h4 style={{ margin: '0 0 8px', color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Lokasi Berkumpul</h4>
+              <p style={{ margin: 0, color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: '600' }}>📍 {data.lokasi_berangkat || 'Tanyakan CS'}</p>
+            </div>
+          </div>
+
           {/* Reviews Section */}
           <div style={{ marginTop: '60px', borderTop: '1px solid var(--border)', paddingTop: '40px' }}>
             <h3 style={{ fontSize: '1.5rem', marginBottom: '24px' }}>Ulasan Pelanggan</h3>
